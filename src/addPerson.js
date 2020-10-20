@@ -1,4 +1,4 @@
-const apiUrl = 'https://virtserver.swaggerhub.com/pigroup/CA2/1.0.0/person';
+import { getSelectedServer } from './getSelectedServer';
 
 export function addPerson() {
   const addPersonSubmit = document.getElementById('addPersonSubmit');
@@ -11,6 +11,8 @@ export function addPerson() {
     const zipcode = document.getElementById('addPersonZipcode').value;
     const phone = document.getElementById('addPersonPhone').value;
     if (email && firstName && lastName && street && zipcode && phone) {
+      const apiUrl = getSelectedServer();
+
       let options = {
         method: 'POST',
         headers: {
@@ -26,7 +28,7 @@ export function addPerson() {
           phone: parseInt(phone),
         }),
       };
-      fetch(apiUrl, options)
+      fetch(apiUrl + 'person/', options)
         .then(handleHttpErrors)
         .then((res) => {
           const addPersonAlert = document.getElementById('addPersonAlert');
