@@ -35,6 +35,7 @@ btnEx1.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(1);
+  addPerson();
 };
 
 btnEx2.onclick = (e) => {
