@@ -1,4 +1,4 @@
-import {} from './index';
+import { addPerson } from './addPerson';
 // Navigation
 // To add more top level buttons in comment the out commented code below and in public/index.html
 const btnEx1 = document.getElementById('btnEx1');
