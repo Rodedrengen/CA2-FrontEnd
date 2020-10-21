@@ -304,7 +304,60 @@
             </button>
           </form>
         </div>
-        <div id="5"></div>
+        <div id="5">
+          <form>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="removeHobbyFromPersonPhone">Phone</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="removeHobbyFromPersonPhone"
+                    value="12344321"
+                    required
+                  />
+                </div>
+                <div id="removeHobbyFromPersonDiv"></div>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  id="removeHobbyFromPersonSubmit"
+                >
+                  Load Person hobbies
+                </button>
+              </form>
+
+          <form>
+            <div class="form-row" id="removeHobbyFromPersonHobbyRow" style="visibility: hidden;">
+              <div class="col">
+                <div class="form-group">
+                  <label for="removeHobbyFromPersonHobby">Hobby</label>
+                  <select
+                    class="show-tick form-control my-select"
+                    id="removeHobbyFromPersonHobby"
+                    data-live-search="true"
+                    required
+                  >
+                    <option value="">None selected</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label>Hobby Description</label>
+                  <div id="removeHobbyFromPersonDescription"></div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-danger" id="removeHobbyFromPersonBtn">Remove Hobby</button>
+            </div>
+            <div id="removeHobbyFromPersonAlert"></div>
+            </form>
+              </div>
+            </div>
+          <div>
+          </div>
+        </div>
         <div id="6">
           <form>
             <div class="form-group">

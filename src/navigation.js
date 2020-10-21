@@ -3,6 +3,10 @@ import { editPerson, editPersonZipCodeSelector } from './editPerson';
 import { deletePerson } from './deletePerson';
 import { findByPhone } from './findByPhone';
 import { addHobbyToPerson, getHobbies } from './addHobbyToPerson';
+import {
+  removeHobbyFindByPhone,
+  removeHobbyFromPerson,
+} from './removeHobbyFromPerson';
 
 // Navigation
 // To add more top level buttons in comment the out commented code below and in public/index.html
@@ -69,6 +73,8 @@ btnEx5.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(5);
+  removeHobbyFindByPhone();
+  removeHobbyFromPerson();
 };
 btnEx6.onclick = (e) => {
   e.preventDefault();
