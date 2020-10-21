@@ -379,7 +379,55 @@
             </button>
           </form>
         </div>
-        <div id="7"></div>
+        <div id="7">
+          <form>
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="findByCityZipcode">Zip code</label>
+                  <select
+                    class="form-control my-findByCity"
+                    id="findByCityZipcode"
+                    data-live-search="true"
+                    required
+                  >
+                    <option value="">None selected</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label>City</label>
+                  <div id="findByCityCity"></div>
+                </div>
+              </div>
+            </div>
+            <div class="" id="findByCityAlert" role="alert"></div>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              id="findByCitySubmit"
+            >
+             Find Persons
+            </button>
+          </form>
+          <table class="table" id="findByCityTable" style="visibility: hidden;">
+            <thead>
+              <tr>
+                <th scope="col">pid</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Last Name</th>
+                  <th scope="col">Street</th>
+                  <th scope="col">Zipcode</th>
+                  <th scope="col">phone</th>
+                  <th scope="col">Hobbies</th>
+                </tr>
+              </thead>
+              <tbody id="findByCityTableBody">
+              </tbody>
+            </table>
+        </div>
         <div id="8"></div>
         <div id="9"></div>
       </div>

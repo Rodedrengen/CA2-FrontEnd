@@ -1,12 +1,13 @@
 import { addPerson, addPersonZipCodeSelector } from './addPerson';
 import { editPerson, editPersonZipCodeSelector } from './editPerson';
 import { deletePerson } from './deletePerson';
-import { findByPhone } from './findByPhone';
 import { addHobbyToPerson, getHobbies } from './addHobbyToPerson';
 import {
   removeHobbyFindByPhone,
   removeHobbyFromPerson,
 } from './removeHobbyFromPerson';
+import { findByPhone } from './findByPhone';
+import { findByCity, findByCityZipCodeSelector } from './findByCity';
 
 // Navigation
 // To add more top level buttons in comment the out commented code below and in public/index.html
@@ -87,6 +88,8 @@ btnEx7.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(7);
+  findByCity();
+  findByCityZipCodeSelector();
 };
 btnEx8.onclick = (e) => {
   e.preventDefault();
