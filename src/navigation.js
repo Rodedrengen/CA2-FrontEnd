@@ -2,6 +2,8 @@ import { addPerson, addPersonZipCodeSelector } from './addPerson';
 import { editPerson, editPersonZipCodeSelector } from './editPerson';
 import { deletePerson } from './deletePerson';
 import { findByPhone } from './findByPhone';
+import { addHobbyToPerson, getHobbies } from './addHobbyToPerson';
+
 // Navigation
 // To add more top level buttons in comment the out commented code below and in public/index.html
 const btnEx1 = document.getElementById('btnEx1');
@@ -60,6 +62,8 @@ btnEx4.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(4);
+  addHobbyToPerson();
+  getHobbies();
 };
 btnEx5.onclick = (e) => {
   e.preventDefault();

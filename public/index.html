@@ -261,7 +261,49 @@
             </button>
           </form>
         </div>
-        <div id="4"></div>
+        <div id="4">
+          <form>
+            <div class="form-group">
+              <label for="addHobbyToPersonPID">PID</label>
+              <input
+                type="number"
+                class="form-control"
+                id="addHobbyToPersonPID"
+                value="1"
+                required
+              />
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="addHobbyToPersonHobby">Hobby</label>
+                  <select
+                    class="show-tick form-control my-select"
+                    id="addHobbyToPersonHobby"
+                    data-live-search="true"
+                    required
+                  >
+                    <option value="">None selected</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label>Hobby Description</label>
+                  <div id="addHobbyToPersonDescription"></div>
+                </div>
+              </div>
+            </div>
+            <div class="" id="addHobbyToPersonAlert" role="alert"></div>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              id="addHobbyToPersonSubmit"
+            >
+              Add Hobby To Person
+            </button>
+          </form>
+        </div>
         <div id="5"></div>
         <div id="6">
           <form>
