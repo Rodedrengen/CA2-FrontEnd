@@ -1,4 +1,5 @@
-import {} from './index';
+import { addPerson, addPersonZipCodeSelector } from './addPerson';
+import { findByPhone } from './findByPhone';
 // Navigation
 // To add more top level buttons in comment the out commented code below and in public/index.html
 const btnEx1 = document.getElementById('btnEx1');
@@ -35,6 +36,8 @@ btnEx1.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(1);
+  addPerson();
+  addPersonZipCodeSelector();
 };
 
 btnEx2.onclick = (e) => {
@@ -62,6 +65,7 @@ btnEx6.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(6);
+  findByPhone();
 };
 
 btnEx7.onclick = (e) => {
