@@ -1,4 +1,5 @@
 import { addPerson, addPersonZipCodeSelector } from './addPerson';
+import { editPerson, editPersonZipCodeSelector } from './editPerson';
 import { findByPhone } from './findByPhone';
 // Navigation
 // To add more top level buttons in comment the out commented code below and in public/index.html
@@ -44,6 +45,8 @@ btnEx2.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(2);
+  editPerson();
+  editPersonZipCodeSelector();
 };
 
 btnEx3.onclick = (e) => {
