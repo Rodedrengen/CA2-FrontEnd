@@ -1,5 +1,5 @@
 import { getSelectedServer } from './getSelectedServer';
-const apiUrl = getSelectedServer();
+
 export function addPerson() {
   const addPersonSubmit = document.getElementById('addPersonSubmit');
   addPersonSubmit.onclick = (e) => {
@@ -11,6 +11,7 @@ export function addPerson() {
     const zipcode = document.getElementById('addPersonZipcode').value;
     const phone = document.getElementById('addPersonPhone').value;
     if (email && firstName && lastName && street && zipcode && phone) {
+      const apiUrl = getSelectedServer();
       let options = {
         method: 'POST',
         headers: {
@@ -52,6 +53,7 @@ export function addPerson() {
 }
 
 export function addPersonZipCodeSelector() {
+  const apiUrl = getSelectedServer();
   //initialize bootstrap-select
   let options = {
     method: 'GET',
