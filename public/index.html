@@ -39,7 +39,7 @@
       <a href="" id="btnEx5">Remove hobby from person</a>
       <a href="" id="btnEx6">Get by phone</a>
       <a href="" id="btnEx7">Get persons in city</a>
-      <a href="" id="btnEx8">Get person with hobby</a>
+      <a href="" id="btnEx8">Get persons with hobby</a>
       <a href="" id="btnEx9">Persons with hobby count</a>
     </div>
 
@@ -428,7 +428,55 @@
               </tbody>
             </table>
         </div>
-        <div id="8"></div>
+        <div id="8">
+          <form>
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="getPersonsWithHobbySelector">Hobby</label>
+                  <select
+                    class="show-tick form-control my-select-find-by-hobby"
+                    id="getPersonsWithHobbySelector"
+                    data-live-search="true"
+                    required
+                  >
+                    <option value="">None selected</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label>Hobby Description</label>
+                  <div id="getPersonsWithHobbyDescription"></div>
+                </div>
+              </div>
+            </div>
+            <div class="" id="getPersonsWithHobbyAlert" role="alert"></div>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              id="getPersonsWithHobbySubmit"
+            >
+              Find Persons
+            </button>
+          </form>
+          <table class="table" id="getPersonsWithHobbyTable" style="visibility: hidden;">
+            <thead>
+              <tr>
+                <th scope="col">pid</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Last Name</th>
+                  <th scope="col">Street</th>
+                  <th scope="col">Zipcode</th>
+                  <th scope="col">phone</th>
+                  <th scope="col">Hobbies</th>
+                </tr>
+              </thead>
+              <tbody id="getPersonsWithHobbyTableBody">
+              </tbody>
+            </table>
+        </div>
         <div id="9"></div>
       </div>
     </div>

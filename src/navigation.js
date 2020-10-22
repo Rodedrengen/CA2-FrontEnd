@@ -8,6 +8,7 @@ import {
 } from './removeHobbyFromPerson';
 import { findByPhone } from './findByPhone';
 import { findByCity, findByCityZipCodeSelector } from './findByCity';
+import { findByHobbySelector, findByHobby } from './findByHobby';
 
 // Navigation
 // To add more top level buttons in comment the out commented code below and in public/index.html
@@ -95,6 +96,8 @@ btnEx8.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(8);
+  findByHobbySelector();
+  findByHobby();
 };
 btnEx9.onclick = (e) => {
   e.preventDefault();
