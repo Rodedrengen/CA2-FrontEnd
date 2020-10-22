@@ -7,7 +7,8 @@ export function addHobbyToPerson() {
   addHobbyToPersonSubmit.onclick = (e) => {
     e.preventDefault();
     const pid = document.getElementById('addHobbyToPersonPID').value;
-    const hobby = document.getElementById('addHobbyToPersonHobby').value;
+    const selector = document.getElementById('addHobbyToPersonHobby');
+    const hobby = selector.options[selector.selectedIndex].text;
 
     const apiUrl = getSelectedServer();
     let options = {

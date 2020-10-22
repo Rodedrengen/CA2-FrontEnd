@@ -4,7 +4,8 @@ export function findByCity() {
   const findByCitySubmit = document.getElementById('findByCitySubmit');
   findByCitySubmit.onclick = (e) => {
     e.preventDefault();
-    const zipcode = document.getElementById('findByCityZipcode').value;
+    const selector = document.getElementById('findByCityZipcode');
+    const zipcode = selector.options[selector.selectedIndex].text;
     const apiUrl = getSelectedServer();
     if (zipcode) {
       let options = {
@@ -97,7 +98,7 @@ export function findByCityZipCodeSelector() {
       $('.my-findByCity').selectpicker();
     })
     .catch((err) => {
-      const findByCityZipAlert = document.getElementById('findByCityZipAlert');
+      const findByCityZipAlert = document.getElementById('findByCityAlert');
       findByCityZipAlert.removeAttribute('class');
       findByCityZipAlert.classList.add('alert');
       findByCityZipAlert.classList.add('alert-danger');

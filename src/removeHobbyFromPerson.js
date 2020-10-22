@@ -97,9 +97,10 @@ export function removeHobbyFromPerson() {
   );
   removeHobbyFromPersonBtn.onclick = (e) => {
     e.preventDefault();
+
     const phone = document.getElementById('removeHobbyFromPersonPhone').value;
-    const hobbyName = document.getElementById('removeHobbyFromPersonHobby')
-      .value;
+    const selector = document.getElementById('removeHobbyFromPersonHobby');
+    const hobbyName = selector.options[selector.selectedIndex].text;
     const apiUrl = getSelectedServer();
     if (phone && hobbyName) {
       let options = {

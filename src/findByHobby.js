@@ -6,7 +6,8 @@ export function findByHobby() {
   );
   getPersonsWithHobbySubmit.onclick = (e) => {
     e.preventDefault();
-    const hobby = document.getElementById('getPersonsWithHobbySelector').value;
+    const selector = document.getElementById('getPersonsWithHobbySelector');
+    const hobby = selector.options[selector.selectedIndex].text;
     const apiUrl = getSelectedServer();
     if (hobby) {
       let options = {
@@ -107,7 +108,6 @@ export function findByHobbySelector() {
       $('.my-select-find-by-hobby').selectpicker();
     })
     .catch((err) => {
-      console.log(err);
       const getPersonsWithHobbyAlert = document.getElementById(
         'getPersonsWithHobbyAlert'
       );

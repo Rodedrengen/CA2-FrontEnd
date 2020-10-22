@@ -75,7 +75,6 @@ export function countPersonsWithHobbySelector() {
       $('.my-select-count-persons').selectpicker();
     })
     .catch((err) => {
-      console.log(err);
       const countPersonsWithHobbyAlert = document.getElementById(
         'countPersonsWithHobbyAlert'
       );

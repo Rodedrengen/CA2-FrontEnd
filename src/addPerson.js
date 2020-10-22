@@ -8,7 +8,8 @@ export function addPerson() {
     const firstName = document.getElementById('addPersonFirstName').value;
     const lastName = document.getElementById('addPersonLastName').value;
     const street = document.getElementById('addPersonStreet').value;
-    const zipcode = document.getElementById('addPersonZipcode').value;
+    const selector = document.getElementById('addPersonZipcode');
+    const zipcode = selector.options[selector.selectedIndex].text;
     const phone = document.getElementById('addPersonPhone').value;
     if (email && firstName && lastName && street && zipcode && phone) {
       const apiUrl = getSelectedServer();
@@ -72,7 +73,7 @@ export function addPersonZipCodeSelector() {
         addPersonCity.innerHTML = `<h4>${event.target.value}</h4>`;
       });
 
-      res.forEach((zip) => {
+      res.all.forEach((zip) => {
         var opt = document.createElement('option');
         opt.text = zip.zipcode;
         opt.value = zip.city;
