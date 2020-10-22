@@ -477,7 +477,40 @@
               </tbody>
             </table>
         </div>
-        <div id="9"></div>
+        <div id="9">
+          <form>
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="countPersonsWithHobbySelector">Hobby</label>
+                  <select
+                    class="show-tick form-control my-select-find-by-hobby"
+                    id="countPersonsWithHobbySelector"
+                    data-live-search="true"
+                    required
+                  >
+                    <option value="">None selected</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label>Hobby Description</label>
+                  <div id="countPersonsWithHobbyDescription"></div>
+                </div>
+              </div>
+            </div>
+            <div class="" id="countPersonsWithHobbyAlert" role="alert"></div>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              id="countPersonsWithHobbySubmit"
+            >
+              Find Persons
+            </button>
+          </form>
+          <div id="countPersonsDiv"></div>
+        </div>
       </div>
     </div>
     <script src="bundle.js"></script>

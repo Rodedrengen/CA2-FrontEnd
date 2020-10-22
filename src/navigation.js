@@ -9,6 +9,10 @@ import {
 import { findByPhone } from './findByPhone';
 import { findByCity, findByCityZipCodeSelector } from './findByCity';
 import { findByHobbySelector, findByHobby } from './findByHobby';
+import {
+  countPersonsWithHobbySelector,
+  findCountByHobby,
+} from './countOfPersonsWithHobby';
 
 // Navigation
 // To add more top level buttons in comment the out commented code below and in public/index.html
@@ -103,6 +107,8 @@ btnEx9.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(9);
+  countPersonsWithHobbySelector();
+  findCountByHobby();
 };
 
 function removeContent() {
