@@ -1,5 +1,19 @@
 import { addPerson, addPersonZipCodeSelector } from './addPerson';
+import { editPerson, editPersonZipCodeSelector } from './editPerson';
+import { deletePerson } from './deletePerson';
+import { addHobbyToPerson, getHobbies } from './addHobbyToPerson';
+import {
+  removeHobbyFindByPhone,
+  removeHobbyFromPerson,
+} from './removeHobbyFromPerson';
 import { findByPhone } from './findByPhone';
+import { findByCity, findByCityZipCodeSelector } from './findByCity';
+import { findByHobbySelector, findByHobby } from './findByHobby';
+import {
+  countPersonsWithHobbySelector,
+  findCountByHobby,
+} from './countOfPersonsWithHobby';
+
 // Navigation
 // To add more top level buttons in comment the out commented code below and in public/index.html
 const btnEx1 = document.getElementById('btnEx1');
@@ -44,22 +58,29 @@ btnEx2.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(2);
+  editPerson();
+  editPersonZipCodeSelector();
 };
 
 btnEx3.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(3);
+  deletePerson();
 };
 btnEx4.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(4);
+  addHobbyToPerson();
+  getHobbies();
 };
 btnEx5.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(5);
+  removeHobbyFindByPhone();
+  removeHobbyFromPerson();
 };
 btnEx6.onclick = (e) => {
   e.preventDefault();
@@ -72,16 +93,22 @@ btnEx7.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(7);
+  findByCity();
+  findByCityZipCodeSelector();
 };
 btnEx8.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(8);
+  findByHobbySelector();
+  findByHobby();
 };
 btnEx9.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(9);
+  countPersonsWithHobbySelector();
+  findCountByHobby();
 };
 
 function removeContent() {

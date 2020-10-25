@@ -1,5 +1,5 @@
 import { getSelectedServer } from './getSelectedServer';
-const apiUrl = getSelectedServer();
+
 export function addPerson() {
   const addPersonSubmit = document.getElementById('addPersonSubmit');
   addPersonSubmit.onclick = (e) => {
@@ -8,9 +8,11 @@ export function addPerson() {
     const firstName = document.getElementById('addPersonFirstName').value;
     const lastName = document.getElementById('addPersonLastName').value;
     const street = document.getElementById('addPersonStreet').value;
-    const zipcode = document.getElementById('addPersonZipcode').value;
+    const selector = document.getElementById('addPersonZipcode');
+    const zipcode = selector.options[selector.selectedIndex].text;
     const phone = document.getElementById('addPersonPhone').value;
     if (email && firstName && lastName && street && zipcode && phone) {
+      const apiUrl = getSelectedServer();
       let options = {
         method: 'POST',
         headers: {
@@ -52,6 +54,7 @@ export function addPerson() {
 }
 
 export function addPersonZipCodeSelector() {
+  const apiUrl = getSelectedServer();
   //initialize bootstrap-select
   let options = {
     method: 'GET',
@@ -70,7 +73,7 @@ export function addPersonZipCodeSelector() {
         addPersonCity.innerHTML = `<h4>${event.target.value}</h4>`;
       });
 
-      res.forEach((zip) => {
+      res.all.forEach((zip) => {
         var opt = document.createElement('option');
         opt.text = zip.zipcode;
         opt.value = zip.city;
