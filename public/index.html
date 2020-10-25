@@ -37,7 +37,7 @@
       <a href="" id="btnEx3">Delete a person</a>
       <a href="" id="btnEx4">Add hobby to person</a>
       <a href="" id="btnEx5">Remove hobby from person</a>
-      <a href="" id="btnEx6">Get by phone</a>
+      <a href="" id="btnEx6">Get by id</a>
       <a href="" id="btnEx7">Get persons in city</a>
       <a href="" id="btnEx8">Get persons with hobby</a>
       <a href="" id="btnEx9">Persons with hobby count</a>
@@ -62,6 +62,9 @@
                 </option>
                 <option value="https://fdinsen.com/CA2/api/">
                   Production
+                </option>
+                <option value="http://localhost:8080/CA2_war/api/">
+                  Localhost
                 </option>
               </select>
             </div>
@@ -306,11 +309,11 @@
             <div class="row">
               <div class="col">
                 <div class="form-group">
-                  <label for="removeHobbyFromPersonPhone">Phone</label>
+                  <label for="removeHobbyFromPersonPID">PID</label>
                   <input
                     type="number"
                     class="form-control"
-                    id="removeHobbyFromPersonPhone"
+                    id="removeHobbyFromPersonPID"
                     value="12344321"
                     required
                   />
@@ -358,19 +361,19 @@
         <div id="6">
           <form>
             <div class="form-group">
-              <label for="findByPhonePhone">Phone</label>
+              <label for="findByPIDPID">PID</label>
               <input
                 type="number"
                 class="form-control"
-                id="findByPhonePhone"
+                id="findByPIDPID"
                 value="12344321"
               />
             </div>
-            <div class="" id="findByPhoneAlert" role="alert"></div>
+            <div class="" id="findByPIDAlert" role="alert"></div>
             <button
               type="submit"
               class="btn btn-primary"
-              id="findByPhoneSubmit"
+              id="findByPIDSubmit"
             >
               Find Person
             </button>

@@ -3,10 +3,10 @@ import { editPerson, editPersonZipCodeSelector } from './editPerson';
 import { deletePerson } from './deletePerson';
 import { addHobbyToPerson, getHobbies } from './addHobbyToPerson';
 import {
-  removeHobbyFindByPhone,
+  removeHobbyFindByPID,
   removeHobbyFromPerson,
 } from './removeHobbyFromPerson';
-import { findByPhone } from './findByPhone';
+import { findByPID } from './findByPID';
 import { findByCity, findByCityZipCodeSelector } from './findByCity';
 import { findByHobbySelector, findByHobby } from './findByHobby';
 import {
@@ -79,14 +79,14 @@ btnEx5.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(5);
-  removeHobbyFindByPhone();
+  removeHobbyFindByPID();
   removeHobbyFromPerson();
 };
 btnEx6.onclick = (e) => {
   e.preventDefault();
   removeContent();
   insertContent(6);
-  findByPhone();
+  findByPID();
 };
 
 btnEx7.onclick = (e) => {

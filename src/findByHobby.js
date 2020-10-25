@@ -1,4 +1,5 @@
 import { getSelectedServer } from './getSelectedServer';
+const axios = require('axios').default;
 
 export function findByHobby() {
   const getPersonsWithHobbySubmit = document.getElementById(
@@ -10,16 +11,10 @@ export function findByHobby() {
     const hobby = selector.options[selector.selectedIndex].text;
     const apiUrl = getSelectedServer();
     if (hobby) {
-      let options = {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      };
-      fetch(apiUrl + 'person/hobby/' + hobby, options)
-        .then(handleHttpErrors)
-        .then((res) => {
+      axios
+        .get(apiUrl + 'person/hobby/' + hobby)
+        .then(function (res) {
+          res = res.data;
           const getPersonsWithHobbyTable = document.getElementById(
             'getPersonsWithHobbyTable'
           );
@@ -48,25 +43,33 @@ export function findByHobby() {
               '</td><td>' +
               person.phone +
               '</td><td>' +
-              person.hobby
+              person.hobbies
                 .map(function (hobby) {
                   return hobby.name;
                 })
                 .join(', ');
-            +'</td><td>' + '</td><td></tr>';
+            +'</td></tr>';
           });
+
           getPersonsWithHobbyTableBody.innerHTML = tableBody;
         })
-        .catch((err) => {
+        .catch(function (error) {
           const getPersonsWithHobbyAlert = document.getElementById(
             'getPersonsWithHobbyAlert'
           );
           getPersonsWithHobbyAlert.removeAttribute('class');
           getPersonsWithHobbyAlert.classList.add('alert');
           getPersonsWithHobbyAlert.classList.add('alert-danger');
-          if (err.status) {
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.status
+          ) {
             getPersonsWithHobbyAlert.innerHTML =
-              'Status: ' + err.status + ' Error: ' + err.msg;
+              'Status: ' +
+              error.response.data.status +
+              ' Error: ' +
+              error.response.data.msg;
           } else {
             getPersonsWithHobbyAlert.innerHTML = '<h2>Unknown Error</h2>';
           }
@@ -77,17 +80,11 @@ export function findByHobby() {
 
 export function findByHobbySelector() {
   const apiUrl = getSelectedServer();
-  //initialize bootstrap-select
-  let options = {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  };
-  fetch(apiUrl + 'hobby/all', options)
-    .then(handleHttpErrors)
-    .then((res) => {
+
+  axios
+    .get(apiUrl + 'hobby/all')
+    .then(function (res) {
+      res = res.data;
       const getPersonsWithHobbySelector = document.getElementById(
         'getPersonsWithHobbySelector'
       );
@@ -99,34 +96,30 @@ export function findByHobbySelector() {
         getPersonsWithHobbyDescription.innerHTML = `<h4>${event.target.value}</h4>`;
       });
 
-      res.hobby.forEach((hobby) => {
+      res.forEach((hobby) => {
         var opt = document.createElement('option');
         opt.text = hobby.name;
-        opt.value = hobby.description;
+        opt.value = hobby.category;
         getPersonsWithHobbySelector.add(opt, null);
       });
       $('.my-select-find-by-hobby').selectpicker();
     })
-    .catch((err) => {
+    .catch(function (error) {
       const getPersonsWithHobbyAlert = document.getElementById(
         'getPersonsWithHobbyAlert'
       );
       getPersonsWithHobbyAlert.removeAttribute('class');
       getPersonsWithHobbyAlert.classList.add('alert');
       getPersonsWithHobbyAlert.classList.add('alert-danger');
-      if (err.status) {
+      if (error.response && error.response.data && error.response.data.status) {
         getPersonsWithHobbyAlert.innerHTML =
-          'Status: ' + err.status + ' Error: ' + err.msg;
+          'Status: ' +
+          error.response.data.status +
+          ' Error: ' +
+          error.response.data.msg;
       } else {
         getPersonsWithHobbyAlert.innerHTML =
           '<h2>Something went wrong while fetching hobbies</h2>';
       }
     });
-}
-
-function handleHttpErrors(res) {
-  if (!res.ok) {
-    Promise.reject(res);
-  }
-  return res.json();
 }
