@@ -1,4 +1,5 @@
 import { getSelectedServer } from './getSelectedServer';
+const axios = require('axios').default;
 
 export function deletePerson() {
   const deletePersonSubmit = document.getElementById('deletePersonSubmit');
@@ -14,27 +15,35 @@ export function deletePerson() {
           'Content-Type': 'application/json',
         },
       };
-      fetch(apiUrl + 'person/' + pid, options)
-        .then(handleHttpErrors)
-        .then((res) => {
+
+      axios
+        .delete(apiUrl + 'person/' + pid)
+        .then(function (res) {
           const deletePersonAlert = document.getElementById(
             'deletePersonAlert'
           );
           deletePersonAlert.removeAttribute('class');
           deletePersonAlert.classList.add('alert');
           deletePersonAlert.classList.add('alert-success');
-          deletePersonAlert.innerHTML = res.msg;
+          deletePersonAlert.innerHTML = res.data.msg;
         })
-        .catch((err) => {
+        .catch(function (error) {
           const deletePersonAlert = document.getElementById(
             'deletePersonAlert'
           );
           deletePersonAlert.removeAttribute('class');
           deletePersonAlert.classList.add('alert');
           deletePersonAlert.classList.add('alert-danger');
-          if (err.status) {
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.status
+          ) {
             deletePersonAlert.innerHTML =
-              'Status: ' + err.status + ' Error: ' + err.msg;
+              'Status: ' +
+              error.response.data.status +
+              ' Error: ' +
+              error.response.data.msg;
           } else {
             deletePersonAlert.innerHTML = '<h2>Unknown Error</h2>';
           }

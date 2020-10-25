@@ -1,4 +1,6 @@
 import { getSelectedServer } from './getSelectedServer';
+const axios = require('axios').default;
+
 export function editPerson() {
   const editPersonSubmit = document.getElementById('editPersonSubmit');
   editPersonSubmit.onclick = (e) => {
@@ -8,17 +10,13 @@ export function editPerson() {
     const firstName = document.getElementById('editPersonFirstName').value;
     const lastName = document.getElementById('editPersonLastName').value;
     const street = document.getElementById('editPersonStreet').value;
-    const zipcode = document.getElementById('editPersonZipcode').value;
+    const selector = document.getElementById('editPersonZipcode');
+    const zipcode = selector.options[selector.selectedIndex].text;
     const phone = document.getElementById('editPersonPhone').value;
     if (pid && email && firstName && lastName && street && zipcode && phone) {
       const apiUrl = getSelectedServer();
-      let options = {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      axios
+        .put(apiUrl + 'person/', {
           pid: parseInt(pid),
           email,
           firstName,
@@ -26,25 +24,29 @@ export function editPerson() {
           street,
           zipcode: parseInt(zipcode),
           phone: parseInt(phone),
-        }),
-      };
-      fetch(apiUrl + 'person/', options)
-        .then(handleHttpErrors)
-        .then((res) => {
+        })
+        .then(function (res) {
           const editPersonAlert = document.getElementById('editPersonAlert');
           editPersonAlert.removeAttribute('class');
           editPersonAlert.classList.add('alert');
           editPersonAlert.classList.add('alert-success');
-          editPersonAlert.innerHTML = res.email + ' updated';
+          editPersonAlert.innerHTML = res.data.email + ' updated';
         })
-        .catch((err) => {
+        .catch(function (error) {
           const editPersonAlert = document.getElementById('editPersonAlert');
           editPersonAlert.removeAttribute('class');
           editPersonAlert.classList.add('alert');
           editPersonAlert.classList.add('alert-danger');
-          if (err.status) {
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.status
+          ) {
             editPersonAlert.innerHTML =
-              'Status: ' + err.status + ' Error: ' + err.msg;
+              'Status: ' +
+              error.response.data.status +
+              ' Error: ' +
+              error.response.data.msg;
           } else {
             editPersonAlert.innerHTML = '<h2>Unknown Error</h2>';
           }
@@ -55,17 +57,10 @@ export function editPerson() {
 
 export function editPersonZipCodeSelector() {
   const apiUrl = getSelectedServer();
-  //initialize bootstrap-select
-  let options = {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  };
-  fetch(apiUrl + 'zipcodes/all', options)
-    .then(handleHttpErrors)
-    .then((res) => {
+
+  axios
+    .get(apiUrl + 'zipcodes/all')
+    .then(function (res) {
       const zipCodeSelector = document.getElementById('editPersonZipcode');
       //Setup change listener for adding city
       zipCodeSelector.addEventListener('change', (event) => {
@@ -73,7 +68,7 @@ export function editPersonZipCodeSelector() {
         editPersonCity.innerHTML = `<h4>${event.target.value}</h4>`;
       });
 
-      res.forEach((zip) => {
+      res.data.all.forEach((zip) => {
         var opt = document.createElement('option');
         opt.text = zip.zipcode;
         opt.value = zip.city;
@@ -81,24 +76,20 @@ export function editPersonZipCodeSelector() {
       });
       $('.my-select').selectpicker();
     })
-    .catch((err) => {
+    .catch(function (error) {
       const editPersonAlert = document.getElementById('editPersonAlert');
       editPersonAlert.removeAttribute('class');
       editPersonAlert.classList.add('alert');
       editPersonAlert.classList.add('alert-danger');
-      if (err.status) {
+      if (error.response && error.response.data && error.response.data.status) {
         editPersonAlert.innerHTML =
-          'Status: ' + err.status + ' Error: ' + err.msg;
+          'Status: ' +
+          error.response.data.status +
+          ' Error: ' +
+          error.response.data.msg;
       } else {
         editPersonAlert.innerHTML =
           '<h2>Something went wrong while fetching zip codes</h2>';
       }
     });
-}
-
-function handleHttpErrors(res) {
-  if (!res.ok) {
-    Promise.reject(res);
-  }
-  return res.json();
 }

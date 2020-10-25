@@ -1,4 +1,5 @@
 import { getSelectedServer } from './getSelectedServer';
+const axios = require('axios').default;
 
 export function findByCity() {
   const findByCitySubmit = document.getElementById('findByCitySubmit');
@@ -8,16 +9,9 @@ export function findByCity() {
     const zipcode = selector.options[selector.selectedIndex].text;
     const apiUrl = getSelectedServer();
     if (zipcode) {
-      let options = {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      };
-      fetch(apiUrl + 'person/city/' + zipcode, options)
-        .then(handleHttpErrors)
-        .then((res) => {
+      axios
+        .get(apiUrl + 'person/city/' + zipcode)
+        .then(function (res) {
           const findByCityTable = document.getElementById('findByCityTable');
           findByCityTable.style.visibility = 'visible';
 
@@ -27,7 +21,7 @@ export function findByCity() {
 
           let tableBody = '';
 
-          res.forEach((person) => {
+          res.data.forEach((person) => {
             tableBody +=
               '<tr><td>' +
               person.pid +
@@ -44,23 +38,30 @@ export function findByCity() {
               '</td><td>' +
               person.phone +
               '</td><td>' +
-              person.hobby
+              person.hobbies
                 .map(function (hobby) {
                   return hobby.name;
                 })
                 .join(', ');
-            +'</td><td>' + '</td><td></tr>';
+            +'</td></tr>';
           });
           findByCityTableBody.innerHTML = tableBody;
         })
-        .catch((err) => {
+        .catch(function (error) {
           const findByCityAlert = document.getElementById('findByCityAlert');
           findByCityAlert.removeAttribute('class');
           findByCityAlert.classList.add('alert');
           findByCityAlert.classList.add('alert-danger');
-          if (err.status) {
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.status
+          ) {
             findByCityAlert.innerHTML =
-              'Status: ' + err.status + ' Error: ' + err.msg;
+              'Status: ' +
+              error.response.data.status +
+              ' Error: ' +
+              error.response.data.msg;
           } else {
             findByCityAlert.innerHTML = '<h2>Unknown Error</h2>';
           }
@@ -79,9 +80,10 @@ export function findByCityZipCodeSelector() {
       'Content-Type': 'application/json',
     },
   };
-  fetch(apiUrl + 'zipcodes/all', options)
-    .then(handleHttpErrors)
-    .then((res) => {
+
+  axios
+    .get(apiUrl + 'zipcodes/all')
+    .then(function (res) {
       const findByCityZipcode = document.getElementById('findByCityZipcode');
       //Setup change listener for adding city
       findByCityZipcode.addEventListener('change', (event) => {
@@ -89,7 +91,7 @@ export function findByCityZipCodeSelector() {
         findByCityCity.innerHTML = `<h4>${event.target.value}</h4>`;
       });
 
-      res.forEach((zip) => {
+      res.all.forEach((zip) => {
         var opt = document.createElement('option');
         opt.text = zip.zipcode;
         opt.value = zip.city;
@@ -97,24 +99,20 @@ export function findByCityZipCodeSelector() {
       });
       $('.my-findByCity').selectpicker();
     })
-    .catch((err) => {
+    .catch(function (error) {
       const findByCityZipAlert = document.getElementById('findByCityAlert');
       findByCityZipAlert.removeAttribute('class');
       findByCityZipAlert.classList.add('alert');
       findByCityZipAlert.classList.add('alert-danger');
-      if (err.status) {
+      if (error.response && error.response.data && error.response.data.status) {
         findByCityZipAlert.innerHTML =
-          'Status: ' + err.status + ' Error: ' + err.msg;
+          'Status: ' +
+          error.response.data.status +
+          ' Error: ' +
+          error.response.data.msg;
       } else {
         findByCityZipAlert.innerHTML =
           '<h2>Something went wrong while fetching zip codes</h2>';
       }
     });
-}
-
-function handleHttpErrors(res) {
-  if (!res.ok) {
-    Promise.reject(res);
-  }
-  return res.json();
 }

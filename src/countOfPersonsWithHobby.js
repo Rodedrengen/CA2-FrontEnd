@@ -1,4 +1,5 @@
 import { getSelectedServer } from './getSelectedServer';
+const axios = require('axios').default;
 
 export function findCountByHobby() {
   const countPersonsWithHobbySubmit = document.getElementById(
@@ -10,30 +11,33 @@ export function findCountByHobby() {
     const hobby = selector.options[selector.selectedIndex].text;
     const apiUrl = getSelectedServer();
     if (hobby) {
-      let options = {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      };
-      fetch(apiUrl + 'person/hobby/' + hobby + '/count', options)
-        .then(handleHttpErrors)
-        .then((res) => {
+      axios
+        .get(apiUrl + 'person/hobby/' + hobby + '/count')
+        .then(function (res) {
           const countPersonsDiv = document.getElementById('countPersonsDiv');
           countPersonsDiv.innerHTML =
-            'Amount of persons with hobby <b>' + hobby + '</b>: ' + res.count;
+            'Amount of persons with hobby <b>' +
+            hobby +
+            '</b>: ' +
+            res.data.count;
         })
-        .catch((err) => {
+        .catch(function (error) {
           const countPersonsWithHobbyAlert = document.getElementById(
             'countPersonsWithHobbyAlert'
           );
           countPersonsWithHobbyAlert.removeAttribute('class');
           countPersonsWithHobbyAlert.classList.add('alert');
           countPersonsWithHobbyAlert.classList.add('alert-danger');
-          if (err.status) {
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.status
+          ) {
             countPersonsWithHobbyAlert.innerHTML =
-              'Status: ' + err.status + ' Error: ' + err.msg;
+              'Status: ' +
+              error.response.data.status +
+              ' Error: ' +
+              error.response.data.msg;
           } else {
             countPersonsWithHobbyAlert.innerHTML = '<h2>Unknown Error</h2>';
           }
@@ -44,17 +48,11 @@ export function findCountByHobby() {
 
 export function countPersonsWithHobbySelector() {
   const apiUrl = getSelectedServer();
-  //initialize bootstrap-select
-  let options = {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  };
-  fetch(apiUrl + 'hobby/all', options)
-    .then(handleHttpErrors)
-    .then((res) => {
+
+  axios
+    .get(apiUrl + 'hobby/all')
+    .then(function (res) {
+      res = res.data;
       const countPersonsWithHobbySelector = document.getElementById(
         'countPersonsWithHobbySelector'
       );
@@ -66,34 +64,30 @@ export function countPersonsWithHobbySelector() {
         countPersonsWithHobbyDescription.innerHTML = `<h4>${event.target.value}</h4>`;
       });
 
-      res.hobby.forEach((hobby) => {
+      res.forEach((hobby) => {
         var opt = document.createElement('option');
         opt.text = hobby.name;
-        opt.value = hobby.description;
+        opt.value = hobby.category;
         countPersonsWithHobbySelector.add(opt, null);
       });
       $('.my-select-count-persons').selectpicker();
     })
-    .catch((err) => {
+    .catch((error) => {
       const countPersonsWithHobbyAlert = document.getElementById(
         'countPersonsWithHobbyAlert'
       );
       countPersonsWithHobbyAlert.removeAttribute('class');
       countPersonsWithHobbyAlert.classList.add('alert');
       countPersonsWithHobbyAlert.classList.add('alert-danger');
-      if (err.status) {
+      if (error.response && error.response.data && error.response.data.status) {
         countPersonsWithHobbyAlert.innerHTML =
-          'Status: ' + err.status + ' Error: ' + err.msg;
+          'Status: ' +
+          error.response.data.status +
+          ' Error: ' +
+          error.response.data.msg;
       } else {
         countPersonsWithHobbyAlert.innerHTML =
           '<h2>Something went wrong while fetching hobbies</h2>';
       }
     });
-}
-
-function handleHttpErrors(res) {
-  if (!res.ok) {
-    Promise.reject(res);
-  }
-  return res.json();
 }

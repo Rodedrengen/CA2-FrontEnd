@@ -1,4 +1,5 @@
 import { getSelectedServer } from './getSelectedServer';
+const axios = require('axios').default;
 
 export function addHobbyToPerson() {
   const addHobbyToPersonSubmit = document.getElementById(
@@ -11,34 +12,34 @@ export function addHobbyToPerson() {
     const hobby = selector.options[selector.selectedIndex].text;
 
     const apiUrl = getSelectedServer();
-    let options = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    };
-    fetch(apiUrl + 'person/' + pid + '/hobby/' + hobby, options)
-      .then(handleHttpErrors)
-      .then((res) => {
+    axios
+      .post(apiUrl + 'person/' + pid + '/hobby/' + hobby)
+      .then(function (res) {
         const addHobbyToPersonAlert = document.getElementById(
           'addHobbyToPersonAlert'
         );
         addHobbyToPersonAlert.removeAttribute('class');
         addHobbyToPersonAlert.classList.add('alert');
         addHobbyToPersonAlert.classList.add('alert-success');
-        addHobbyToPersonAlert.innerHTML = 'Hobby added to ' + res.email;
+        addHobbyToPersonAlert.innerHTML = 'Hobby added to ' + res.data.email;
       })
-      .catch((err) => {
+      .catch(function (error) {
         const addHobbyToPersonAlert = document.getElementById(
           'addHobbyToPersonAlert'
         );
         addHobbyToPersonAlert.removeAttribute('class');
         addHobbyToPersonAlert.classList.add('alert');
         addHobbyToPersonAlert.classList.add('alert-danger');
-        if (err.status) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.status
+        ) {
           addHobbyToPersonAlert.innerHTML =
-            'Status: ' + err.status + ' Error: ' + err.msg;
+            'Status: ' +
+            error.response.data.status +
+            ' Error: ' +
+            error.response.data.msg;
         } else {
           addHobbyToPersonAlert.innerHTML = '<h2>Unknown Error</h2>';
         }
@@ -48,16 +49,10 @@ export function addHobbyToPerson() {
 
 export function getHobbies() {
   const apiUrl = getSelectedServer();
-  let options = {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  };
-  fetch(apiUrl + 'hobby/all', options)
-    .then(handleHttpErrors)
-    .then((res) => {
+
+  axios
+    .get(apiUrl + 'hobby/all')
+    .then(function (res) {
       const addHobbyToPersonHobby = document.getElementById(
         'addHobbyToPersonHobby'
       );
@@ -69,34 +64,30 @@ export function getHobbies() {
         addHobbyToPersonDescription.innerHTML = `<h4>${event.target.value}</h4>`;
       });
 
-      res.hobby.forEach((hobby) => {
+      res.data.forEach((hobby) => {
         var opt = document.createElement('option');
         opt.text = hobby.name;
-        opt.value = hobby.description;
+        opt.value = hobby.category;
         addHobbyToPersonHobby.add(opt, null);
       });
       $('.my-select').selectpicker();
     })
-    .catch((err) => {
+    .catch(function (error) {
       const addHobbyToPersonAlert = document.getElementById(
         'addHobbyToPersonAlert'
       );
       addHobbyToPersonAlert.removeAttribute('class');
       addHobbyToPersonAlert.classList.add('alert');
       addHobbyToPersonAlert.classList.add('alert-danger');
-      if (err.status) {
+      if (error.response && error.response.data && error.response.data.status) {
         addHobbyToPersonAlert.innerHTML =
-          'Status: ' + err.status + ' Error: ' + err.msg;
+          'Status: ' +
+          error.response.data.status +
+          ' Error: ' +
+          error.response.data.msg;
       } else {
         addHobbyToPersonAlert.innerHTML =
           '<h2>Something went wrong while fetching hobbies</h2>';
       }
     });
-}
-
-function handleHttpErrors(res) {
-  if (!res.ok) {
-    Promise.reject(res);
-  }
-  return res.json();
 }

@@ -1,29 +1,24 @@
 import { getSelectedServer } from './getSelectedServer';
+const axios = require('axios').default;
 
-export function removeHobbyFindByPhone() {
+export function removeHobbyFindByPID() {
   const removeHobbyFromPersonSubmit = document.getElementById(
     'removeHobbyFromPersonSubmit'
   );
   removeHobbyFromPersonSubmit.onclick = (e) => {
     e.preventDefault();
-    findByPhone();
+    findByPID();
   };
 }
 
-function findByPhone() {
-  const phone = document.getElementById('removeHobbyFromPersonPhone').value;
+function findByPID() {
+  const PID = document.getElementById('removeHobbyFromPersonPID').value;
   const apiUrl = getSelectedServer();
-  if (phone) {
-    let options = {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    };
-    fetch(apiUrl + 'person/' + phone, options)
-      .then(handleHttpErrors)
-      .then((res) => {
+  if (PID) {
+    axios
+      .get(apiUrl + 'person/' + PID)
+      .then(function (res) {
+        res = res.data;
         const removeHobbyFromPersonDiv = document.getElementById(
           'removeHobbyFromPersonDiv'
         );
@@ -46,7 +41,7 @@ function findByPhone() {
           '<br><b>phone: </b>' +
           res.phone;
 
-        if (res.hobby) {
+        if (res.hobbies) {
           //Show selector
           const removeHobbyFromPersonHobbyRow = document.getElementById(
             'removeHobbyFromPersonHobbyRow'
@@ -65,25 +60,32 @@ function findByPhone() {
             removeHobbyFromPersonDescription.innerHTML = `<h4>${event.target.value}</h4>`;
           });
 
-          res.hobby.forEach((hobby) => {
+          res.hobbies.forEach((hobby) => {
             var opt = document.createElement('option');
             opt.text = hobby.name;
-            opt.value = hobby.description;
+            opt.value = hobby.category;
             removeHobbyFromPersonHobby.add(opt, null);
           });
           $('.my-select').selectpicker();
         }
       })
-      .catch((err) => {
+      .catch(function (error) {
         const removeHobbyFromPersonDiv = document.getElementById(
           'removeHobbyFromPersonDiv'
         );
         removeHobbyFromPersonDiv.removeAttribute('class');
         removeHobbyFromPersonDiv.classList.add('alert');
         removeHobbyFromPersonDiv.classList.add('alert-danger');
-        if (err.status) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.status
+        ) {
           removeHobbyFromPersonDiv.innerHTML =
-            'Status: ' + err.status + ' Error: ' + err.msg;
+            'Status: ' +
+            error.response.data.status +
+            ' Error: ' +
+            error.response.data.msg;
         } else {
           removeHobbyFromPersonDiv.innerHTML = '<h2>Unknown Error</h2>';
         }
@@ -98,51 +100,46 @@ export function removeHobbyFromPerson() {
   removeHobbyFromPersonBtn.onclick = (e) => {
     e.preventDefault();
 
-    const phone = document.getElementById('removeHobbyFromPersonPhone').value;
+    const PID = document.getElementById('removeHobbyFromPersonPID').value;
     const selector = document.getElementById('removeHobbyFromPersonHobby');
     const hobbyName = selector.options[selector.selectedIndex].text;
     const apiUrl = getSelectedServer();
-    if (phone && hobbyName) {
-      let options = {
-        method: 'DELETE',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      };
-      fetch(apiUrl + 'person/' + phone + '/hobby/' + hobbyName, options)
-        .then(handleHttpErrors)
-        .then((res) => {
-          findByPhone();
+    if (PID && hobbyName) {
+      axios
+        .delete(apiUrl + 'person/' + PID + '/hobby/' + hobbyName)
+        .then(function (res) {
+          findByPID();
           const removeHobbyFromPersonAlert = document.getElementById(
             'removeHobbyFromPersonAlert'
           );
           removeHobbyFromPersonAlert.removeAttribute('class');
           removeHobbyFromPersonAlert.classList.add('alert');
           removeHobbyFromPersonAlert.classList.add('alert-success');
-          removeHobbyFromPersonAlert.innerHTML = '<h4>' + res.msg + '</h4>';
+
+          removeHobbyFromPersonAlert.innerHTML =
+            '<h4>' + res.data.msg + '</h4>';
         })
-        .catch((err) => {
+        .catch(function (error) {
           const removeHobbyFromPersonAlert = document.getElementById(
             'removeHobbyFromPersonAlert'
           );
           removeHobbyFromPersonAlert.removeAttribute('class');
           removeHobbyFromPersonAlert.classList.add('alert');
           removeHobbyFromPersonAlert.classList.add('alert-danger');
-          if (err.status) {
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.status
+          ) {
             removeHobbyFromPersonAlert.innerHTML =
-              'Status: ' + err.status + ' Error: ' + err.msg;
+              'Status: ' +
+              error.response.data.status +
+              ' Error: ' +
+              error.response.data.msg;
           } else {
             removeHobbyFromPersonAlert.innerHTML = '<h2>Unknown Error</h2>';
           }
         });
     }
   };
-}
-
-function handleHttpErrors(res) {
-  if (!res.ok) {
-    Promise.reject(res);
-  }
-  return res.json();
 }
